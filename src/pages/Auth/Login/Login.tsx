@@ -23,7 +23,7 @@ const Login = () => {
     console.log(data);
   };
   return (
-    <div className="bg-[#F2F4F7]  h-screen flex flex-col justify-center items-center">
+    <div className="bg-neutral-150  h-screen flex flex-col justify-center items-center">
       <div className="rounded-2xl p-6 w-full md:w-[400px] lg:w-[480px] bg-white">
         <form
         onSubmit={handleSubmit(handleLogin)}

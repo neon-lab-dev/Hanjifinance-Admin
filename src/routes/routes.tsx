@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/Auth/Login/Login";
 import NotFound from "../pages/NotFound/NotFound";
 import AuthLayout from "../layouts/AuthLayout";
+import AdminLayout from "../layouts/AdminLayout";
+import Emails from "../pages/Dashboard/Emails/Emails";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +14,17 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <AdminLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "emails",
+        element: <Emails />,
       },
     ],
   },
