@@ -47,12 +47,15 @@ const Login = () => {
     }
   };
   return (
-    <div className="bg-neutral-150  h-screen flex flex-col justify-center items-center">
+    <div className="bg-neutral-150  h-screen flex flex-col justify-center items-center font-Montserrat">
       <div className="rounded-2xl p-6 w-full md:w-[400px] lg:w-[480px] bg-white">
         <form
         onSubmit={handleSubmit(handleLogin)}
         className="flex flex-col gap-6 lg:gap-5"
       >
+        <h1 className="text-neutral-140 leading-5 font-semibold text-center text-xl mb-3">
+         Welcome Back
+        </h1>
         <TextInput
           label="Email"
           type="email"
@@ -79,11 +82,11 @@ const Login = () => {
             setIsPasswordVisible={setIsPasswordVisible}
           />
 
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <button className="text-primary-20 font-semibold hover:underline cursor-pointer">
               Forgot Password?
             </button>
-          </div>
+          </div> */}
         </div>
 
         <Button
@@ -93,7 +96,7 @@ const Login = () => {
           classNames="w-full"
           isLoading={isLoading}
         />
-        <p className="text-neutral-140 leading-5 mt-2 text-center">
+        {/* <p className="text-neutral-140 leading-5 mt-2 text-center">
           New to HanjiFinance?{" "}
           <button
             type="button"
@@ -101,7 +104,7 @@ const Login = () => {
           >
             Signup
           </button>
-        </p>
+        </p> */}
       </form>
       </div>
     </div>
