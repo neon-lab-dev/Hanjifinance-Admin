@@ -1,26 +1,50 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch } from "react-redux";
 import PasswordInput from "../../../component/Reusable/PasswordInput/PasswordInput";
 import TextInput from "../../../component/Reusable/TextInput/TextInput";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import Button from "../../../component/Reusable/Button/Button";
+import { useLoginMutation } from "../../../redux/Features/Auth/authApi";
+import { toast } from "sonner";
+import { setUser } from "../../../redux/Features/Auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 type TFormData = {
   email: string;
   password: string;
 };
 const Login = () => {
-  const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TFormData>();
 
-  const handleLogin = (data: TFormData) => {
-    console.log(data);
+  const handleLogin: SubmitHandler<TFormData> = async (data) => {
+    const loginData = {
+      email: data.email,
+      password: data.password,
+    };
+    try {
+      const res = await login(loginData).unwrap();
+      reset();
+      const user = res?.data?.user;
+      const token = res?.data?.accessToken;
+      toast.success("Logged in successfully.");
+
+      // Setting the user in Redux state
+      dispatch(setUser({ user, token }));
+      navigate("/dashboard/emails");
+    } catch (err) {
+      toast.error("Invalid email or password!");
+    }
   };
   return (
     <div className="bg-neutral-150  h-screen flex flex-col justify-center items-center">
@@ -67,6 +91,7 @@ const Login = () => {
           label="Login"
           variant="primary"
           classNames="w-full"
+          isLoading={isLoading}
         />
         <p className="text-neutral-140 leading-5 mt-2 text-center">
           New to HanjiFinance?{" "}

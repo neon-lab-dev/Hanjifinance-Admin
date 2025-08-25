@@ -2,16 +2,15 @@ import { baseApi } from "../../Api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllUser: builder.query({
+    getAllNewsletter: builder.query({
       query: () => ({
-        url: "/all/user",
+        url: "/newsletter",
         method: "GET",
         credentials: "include",
       }),
-      providesTags: ["user"],
+      providesTags: ["newsletter"],
     }),
 
-    
     // deleteVideo: builder.mutation({
     //   query: ({ courseId, lectureId }) => ({
     //     url: `/lectures?courseId=${courseId}&lectureId=${lectureId}`,
@@ -23,6 +22,4 @@ const adminApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAllUserQuery,
-} = adminApi;
+export const { useGetAllNewsletterQuery } = adminApi;

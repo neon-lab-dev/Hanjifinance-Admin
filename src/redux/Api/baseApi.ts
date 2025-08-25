@@ -1,33 +1,59 @@
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setUser } from "../Features/Auth/authSlice";
+import type {
+  BaseQueryApi,
+  BaseQueryFn,
+  FetchArgs,
+} from "@reduxjs/toolkit/query";
+import type { DefinitionType } from "@reduxjs/toolkit/query";
+import type { RootState } from "../store";
 
-const baseQuery: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
-  const rawBaseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api/v1',
-    credentials: 'include',
-  });
+const baseQuery = fetchBaseQuery({
+  baseUrl: "http://localhost:5000/api/v1",
+  credentials: "include",
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
 
-  const result = await rawBaseQuery(args, api, extraOptions);
+    if (token) {
+      headers.set("authorization", `${token}`);
+    }
+    return headers;
+  },
+});
 
-  // Check if there's an error and handle it
-  if (result.error) {
-    return {
-      error: {
-        status: result.error.status,
-        data: result.error.data || 'Something went wrong!',
-      } as FetchBaseQueryError,
-    };
+const baseQueryWithRefreshToken: BaseQueryFn<
+  FetchArgs,
+  BaseQueryApi,
+  DefinitionType
+> = async (args, api, extraOptions): Promise<any> => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.error?.status === 401) {
+    const res = await fetch(
+      "http://localhost:5000/api/v1/auth/refresh-token",
+      {
+        credentials: "include",
+      }
+    );
+
+    const data = await res.json();
+    const user = (api.getState() as RootState).auth.user;
+    api.dispatch(
+      setUser({
+        user,
+        token: data?.data?.accessToken,
+      })
+    );
+    result = await baseQuery(args, api, extraOptions);
   }
 
-  // Return result as expected by BaseQueryFn
-  return {
-    data: result.data,
-  };
+  return result;
 };
 
 export const baseApi = createApi({
-  reducerPath: 'baseApi',
-  baseQuery,
-  tagTypes: ['user', 'course', 'earning', 'payout'],
+  reducerPath: "baseApi",
+  baseQuery: baseQueryWithRefreshToken,
+  tagTypes: ["users", "newsletter"],
   endpoints: () => ({}),
 });

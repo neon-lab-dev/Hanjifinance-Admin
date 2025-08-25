@@ -4,6 +4,7 @@ import NotFound from "../pages/NotFound/NotFound";
 import AuthLayout from "../layouts/AuthLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import Emails from "../pages/Dashboard/Emails/Emails";
+import ChangePassword from "../pages/Auth/ChangePassword/ChangePassword";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "emails",
         element: <Emails />,
+      },
+      {
+        path: "settings",
+        element: <ChangePassword />,
       },
     ],
   },

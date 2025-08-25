@@ -1,16 +1,33 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/icons/logo.png";
 import Button from "../../Reusable/Button/Button";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdSettings } from "react-icons/md";
+import { logout } from "../../../redux/Features/Auth/authSlice";
+import { useDispatch } from "react-redux";
+
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
+
   const sidebarLinks = [
     {
       label: "Emails",
       icon: <MdEmail />,
       path: "/dashboard/emails",
     },
+    {
+      label: "Settings",
+      icon: <MdSettings />,
+      path: "/dashboard/settings",
+    },
   ];
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <div className="w-[280px] bg-white min-h-screen font-Montserrat p-4 flex flex-col justify-between">
       <div className="flex flex-col gap-16">
@@ -20,8 +37,8 @@ const Sidebar = () => {
           {sidebarLinks?.map((item) => (
             <Link
               key={item?.label}
-              to={"/dashboard/emails"}
-              className={`py-3 px-2 rounded-lg font-medium hover:bg-primary-10/10 transition duration-300 ease-in-out flex items-center gap-2 ${
+              to={item?.path}
+              className={`p-3 rounded-lg font-medium hover:bg-primary-10/10 transition duration-300 ease-in-out flex items-center gap-2 ${
                 location.pathname === item?.path
                   ? "bg-primary-10/10 text-primary-10"
                   : "text-neutral-10"
@@ -39,6 +56,7 @@ const Sidebar = () => {
         label="Logout"
         variant="primary"
         classNames="w-full py-3"
+        onClick={handleLogout}
       />
     </div>
   );
