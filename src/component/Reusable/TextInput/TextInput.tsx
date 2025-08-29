@@ -38,13 +38,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             className="flex flex-row items-center w-full justify-between text-neutral-65"
           >
             <span className="text-neutral-10 leading-[18px] text-[15px] font-medium tracking-[-0.16] ">
-              {label}
-            </span>
-            <span>
-                <span className="text-neutral-85 leading-4 text-[13px] font-medium tracking-[-0.14]">
-                  {" "}
-                  {isRequired ? "Required" : "Optional"}
-                </span>
+              {label} <span className="text-primary-10">{isRequired ? "*" : "(Optional)"}</span>
             </span>
           </label>
         )}

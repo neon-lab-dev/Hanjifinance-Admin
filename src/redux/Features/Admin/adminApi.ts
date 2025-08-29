@@ -11,15 +11,25 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["blog"],
     }),
 
-    // deleteVideo: builder.mutation({
-    //   query: ({ courseId, lectureId }) => ({
-    //     url: `/lectures?courseId=${courseId}&lectureId=${lectureId}`,
-    //     method: "DELETE",
-    //     credentials: "include",
-    //   }),
-    //   invalidatesTags: ["course"],
-    // }),
+    addBlog: builder.mutation({
+      query: (data) => ({
+        url: "/blog/add",
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["blog"],
+    }),
+
+    deleteBlog: builder.mutation({
+      query: (id) => ({
+        url: `/blog/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["blog"],
+    }),
   }),
 });
 
-export const { useGetAllBlogsQuery } = adminApi;
+export const { useGetAllBlogsQuery, useAddBlogMutation, useDeleteBlogMutation } = adminApi;
