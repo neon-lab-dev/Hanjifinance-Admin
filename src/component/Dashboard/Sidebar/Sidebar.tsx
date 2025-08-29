@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/icons/logo.png";
 import Button from "../../Reusable/Button/Button";
-import { MdEmail, MdSettings } from "react-icons/md";
+import { MdArticle, MdCategory, MdSettings } from "react-icons/md";
 import { logout } from "../../../redux/Features/Auth/authSlice";
 import { useDispatch } from "react-redux";
 
@@ -11,17 +11,22 @@ const Sidebar = () => {
   const location = useLocation();
 
   const sidebarLinks = [
-    {
-      label: "Emails",
-      icon: <MdEmail />,
-      path: "/dashboard/emails",
-    },
-    {
-      label: "Settings",
-      icon: <MdSettings />,
-      path: "/dashboard/settings",
-    },
-  ];
+  {
+    label: "Categories",
+    icon: <MdCategory />,
+    path: "/dashboard/categories",
+  },
+  {
+    label: "Blogs",
+    icon: <MdArticle />,
+    path: "/dashboard/blogs",
+  },
+  {
+    label: "Settings",
+    icon: <MdSettings />,
+    path: "/dashboard/settings",
+  },
+];
 
   const handleLogout = async () => {
     dispatch(logout());

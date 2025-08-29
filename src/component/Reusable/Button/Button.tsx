@@ -22,9 +22,9 @@ const Button: React.FC<ReusableButtonProps> = ({
 
   const variantClasses =
     variant === "primary"
-      ? "bg-primary-20 text-white border-transparent"
+      ? "bg-primary-10 text-white border-transparent"
       : variant === "secondary"
-      ? "border-2 border-primary-20 text-primary-20 bg-transparent hover:bg-primary-20 hover:text-white"
+      ? "border-2 border-primary-10 text-primary-10 bg-transparent hover:bg-primary-10 hover:text-white"
       : variant === "tertiary"
       ? "text-primary-15 bg-transparent py-4 px-8"
       : variant === "disabled"

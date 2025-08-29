@@ -3,8 +3,9 @@ import Login from "../pages/Auth/Login/Login";
 import NotFound from "../pages/NotFound/NotFound";
 import AuthLayout from "../layouts/AuthLayout";
 import AdminLayout from "../layouts/AdminLayout";
-import Emails from "../pages/Dashboard/Emails/Emails";
 import ChangePassword from "../pages/Auth/ChangePassword/ChangePassword";
+import Categories from "../pages/Dashboard/Categories/Categories";
+import Blogs from './../pages/Dashboard/Blogs/Blogs';
 
 export const router = createBrowserRouter([
   {
@@ -24,8 +25,12 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "emails",
-        element: <Emails />,
+        path: "blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "categories",
+        element: <Categories />,
       },
       {
         path: "settings",

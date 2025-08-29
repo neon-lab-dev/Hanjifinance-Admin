@@ -2,13 +2,13 @@ import { baseApi } from "../../Api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllNewsletter: builder.query({
+    getAllBlogs: builder.query({
       query: () => ({
-        url: "/newsletter",
+        url: "/blog",
         method: "GET",
         credentials: "include",
       }),
-      providesTags: ["newsletter"],
+      providesTags: ["blog"],
     }),
 
     // deleteVideo: builder.mutation({
@@ -22,4 +22,4 @@ const adminApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllNewsletterQuery } = adminApi;
+export const { useGetAllBlogsQuery } = adminApi;
