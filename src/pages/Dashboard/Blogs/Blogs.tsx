@@ -1,56 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
-import { MdSearch, MdAdd} from 'react-icons/md';
-import { useGetAllBlogsQuery } from '../../../redux/Features/Admin/adminApi';
-import AddBlogForm from '../../../component/Dashboard/BlogPage/AddBlogForm/AddBlogForm';
-import BlogCard from '../../../component/Dashboard/BlogPage/BlogCard/BlogCard';
+import { useState } from "react";
+import { MdSearch, MdAdd } from "react-icons/md";
+import {
+  useGetAllBlogsQuery,
+  useGetSingleBlogByIdQuery,
+} from "../../../redux/Features/Admin/adminApi";
+import AddBlogForm from "../../../component/Dashboard/BlogPage/AddBlogForm/AddBlogForm";
+import BlogCard from "../../../component/Dashboard/BlogPage/BlogCard/BlogCard";
 
 const Blogs = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentBlog, setCurrentBlog] = useState<any | null>(null);
+  const [mode, setMode] = useState("add");
+  const [selectedBlogId, setSelectedBlogId] = useState<any | null>(null);
+  const { data: singleData, isLoading: singleLoading } = useGetSingleBlogByIdQuery(selectedBlogId);
+  console.log(singleData);
 
- 
+  const { data, isLoading } = useGetAllBlogsQuery({});
 
-  const {data, isLoading} = useGetAllBlogsQuery({});
-  console.log(data);
-
-  const filteredBlogs = data?.data?.filter((blog:any) =>
-    blog?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    blog?.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBlogs = data?.data?.filter(
+    (blog: any) =>
+      blog?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      blog?.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleEditBlog = (blog: any) => {
-    setCurrentBlog(blog);
-    setTitle(blog.title);
-    setDescription(blog.description);
-    setContent(blog.content);
-    setImage(blog.image);
-    setIsModalOpen(true);
-  };
-
-  const handleUpdateBlog = () => {
-    resetForm();
-    setIsModalOpen(false);
-  };
-
-
-
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setContent('');
-    setImage('');
-    setCurrentBlog(null);
-  };
-
-  const handleModalClose = () => {
-    resetForm();
-    setIsModalOpen(false);
-  };
-
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="min-h-screen">
       <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-2xl font-bold text-gray-800">Blog Management</h1>
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -67,7 +42,7 @@ const Blogs = () => {
             />
           </div>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {setIsModalOpen(true); setMode("add") ; setSelectedBlogId(null)}}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
           >
             <MdAdd className="text-lg" />
@@ -84,15 +59,20 @@ const Blogs = () => {
       ) : filteredBlogs.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <p className="text-gray-500 text-lg">
-            {searchTerm ? 'No blogs found matching your search.' : 'No blogs available.'}
+            {searchTerm
+              ? "No blogs found matching your search."
+              : "No blogs available."}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBlogs.map((blog:any) => (
+          {filteredBlogs.map((blog: any) => (
             <BlogCard
-              key={blog.id} 
-              blog={blog} 
+              key={blog.id}
+              blog={blog}
+              setSelectedBlogId={setSelectedBlogId}
+              setIsOpen={setIsModalOpen}
+              setMode={setMode}
             />
           ))}
         </div>
@@ -101,8 +81,12 @@ const Blogs = () => {
       {/* Add/Edit Blog Modal */}
       {isModalOpen && (
         <AddBlogForm
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
+          onClose={() => setIsModalOpen(false)}
+          mode={mode as "add" | "edit"}
+          setMode={setMode}
+          defaultValues={singleData?.data}
+          selectedBlogId={selectedBlogId}
+          isLoading={singleLoading}
         />
       )}
     </div>

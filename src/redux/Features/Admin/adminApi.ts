@@ -11,6 +11,15 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["blog"],
     }),
 
+    getSingleBlogById: builder.query({
+      query: (id) => ({
+        url: `/blog/${id}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["blog"],
+    }),
+
     addBlog: builder.mutation({
       query: (data) => ({
         url: "/blog/add",
@@ -29,7 +38,17 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["blog"],
     }),
+
+    editBlog: builder.mutation({
+      query: ({id, data}) => ({
+        url: `/blog/${id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["blog"],
+    }),
   }),
 });
 
-export const { useGetAllBlogsQuery, useAddBlogMutation, useDeleteBlogMutation } = adminApi;
+export const { useGetAllBlogsQuery, useGetSingleBlogByIdQuery, useAddBlogMutation, useDeleteBlogMutation, useEditBlogMutation } = adminApi;
