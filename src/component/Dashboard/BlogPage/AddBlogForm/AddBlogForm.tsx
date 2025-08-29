@@ -74,9 +74,12 @@ const AddBlogForm = ({
     formData.append("title", data.title);
     formData.append("metaDescription", data.metaDescription);
     formData.append("content", content);
+   if (tags.length > 0) {
+  formData.append("tags", JSON.stringify(tags));
+}
+
 
     if (data.image && data.image[0]) formData.append("file", data.image[0]);
-    if (tags.length > 0) tags.forEach((tag) => formData.append("tags", tag));
 
     try {
       if (mode === "add") {
@@ -190,7 +193,7 @@ const AddBlogForm = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {tags.map((tag, index) => (
+                  {tags?.map((tag, index) => (
                     <span
                       key={index}
                       className="flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"

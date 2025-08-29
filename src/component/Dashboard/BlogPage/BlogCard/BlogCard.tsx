@@ -3,12 +3,13 @@
 import { MdDelete, MdEdit, MdVisibility } from "react-icons/md";
 import { useDeleteBlogMutation } from "../../../../redux/Features/Admin/adminApi";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const BlogCard = ({
   blog,
   setSelectedBlogId,
   setMode,
-  setIsOpen
+  setIsOpen,
 }: {
   blog: any;
   setSelectedBlogId: any;
@@ -44,16 +45,26 @@ const BlogCard = ({
           {blog.title}
         </h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {blog.description}
+          {blog.metaDescription}
         </p>
         <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-          <span>Published: {blog.date}</span>
+          <span>
+            Published:{" "}
+            {new Date(blog.createdAt).toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
         </div>
         <div className="flex gap-2">
-          <button className="px-3 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors flex items-center gap-1 text-sm cursor-pointer">
+          <Link
+            to={`/dashboard/blog/${blog?._id}`}
+            className="px-3 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors flex items-center gap-1 text-sm cursor-pointer"
+          >
             <MdVisibility />
             View
-          </button>
+          </Link>
           <button
             onClick={() => {
               setIsOpen(true);

@@ -43,7 +43,7 @@ const Blogs = () => {
           </div>
           <button
             onClick={() => {setIsModalOpen(true); setMode("add") ; setSelectedBlogId(null)}}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+            className="px-4 py-2 bg-primary-10 text-white rounded-md hover:bg-primary-10/80 transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <MdAdd className="text-lg" />
             Add New Blog
@@ -56,7 +56,7 @@ const Blogs = () => {
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
-      ) : filteredBlogs.length === 0 ? (
+      ) : filteredBlogs?.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <p className="text-gray-500 text-lg">
             {searchTerm
@@ -66,7 +66,7 @@ const Blogs = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBlogs.map((blog: any) => (
+          {filteredBlogs?.map((blog: any) => (
             <BlogCard
               key={blog.id}
               blog={blog}

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/icons/logo.png";
 import Button from "../../Reusable/Button/Button";
-import { MdArticle, MdCategory, MdSettings } from "react-icons/md";
+import { MdArticle, MdSettings } from "react-icons/md";
 import { logout } from "../../../redux/Features/Auth/authSlice";
 import { useDispatch } from "react-redux";
 
@@ -11,11 +11,11 @@ const Sidebar = () => {
   const location = useLocation();
 
   const sidebarLinks = [
-  {
-    label: "Categories",
-    icon: <MdCategory />,
-    path: "/dashboard/categories",
-  },
+  // {
+  //   label: "Categories",
+  //   icon: <MdCategory />,
+  //   path: "/dashboard/categories",
+  // },
   {
     label: "Blogs",
     icon: <MdArticle />,
